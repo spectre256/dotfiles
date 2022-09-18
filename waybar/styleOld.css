@@ -1,0 +1,180 @@
+/* Macchiato color scheme:
+rosewater: #f4dbd6;
+flamingo: #f0c6c6;
+pink: #f5bde6;
+mauve: #c6a0f6;
+red: #ed8796;
+maroon: #ee99a0;
+peach: #f5a97f;
+yellow: #eed49f;
+green: #a6da95;
+teal: #8bd5ca;
+sky: #91d7e3;
+sapphire: #7dc4e4;
+blue: #8aadf4;
+lavender: #b7bdf8;
+text: #cad3f5;
+subtext1: #b8c0e0;
+subtext0: #a5adcb;
+overlay2: #939ab7;
+overlay1: #8087a2;
+overlay0: #6e738d;
+surface2: #5b6078;
+surface1: #494d64;
+surface0: #363a4f;
+base: #24273a;
+mantle: #1e2030;
+crust: #181926;
+*/
+
+* {
+    border-radius: 0.4em;
+    font-family: FiraCode, "Symbols Nerd Font";
+    font-size: 18px;
+    color: #cad3f5
+
+}
+
+window#waybar {
+    border-radius: 0;
+    background-color: #24273a;
+    color: #cad3f5;
+}
+
+#workspaces {
+    background-color: #1e2030;
+}
+
+#workspaces button {
+    padding: 0 0.3em;
+    background-color: transparent;
+    color: #ffffff;
+    /* Use box-shadow instead of border so the text isn't offset */
+    box-shadow: inset 0 -3px transparent;
+    /* Avoid rounded borders under each workspace name */
+    border: none;
+    /* border-radius: 0; */
+}
+
+#workspaces button:hover {
+    background-color: transparent;
+    /* box-shadow: inset 0 -3px #ffffff; */
+}
+
+#workspaces button.focused {
+    background-color: #f5bde6;
+    color: #181926;
+    /* box-shadow: inset 0 -3px #ffffff; */
+}
+
+#workspaces button.urgent {
+    background-color: #eb4d4b;
+}
+
+#clock,
+#battery,
+#cpu,
+#memory,
+#temperature,
+#backlight,
+#network,
+#pulseaudio,
+#language {
+    margin: 0.4em 0;
+    padding: 0.2em 0.4em;
+}
+
+#window,
+#workspaces {
+    margin: 0.3em 0;
+    padding: 0.2em 0.4em;
+}
+
+/* If workspaces is the leftmost module, omit left margin */
+.modules-left > widget:first-child > #workspaces {
+    margin-left: 0;
+}
+
+/* If workspaces is the rightmost module, omit right margin */
+.modules-right > widget:last-child > #workspaces {
+    margin-right: 0;
+}
+
+#clock {
+    background-color: #c6a0f6;
+    color: #181926;
+}
+
+#battery {
+    background-color: #ffffff;
+    color: #000000;
+}
+
+#battery.charging, #battery.plugged {
+    color: #ffffff;
+    background-color: #26A65B;
+}
+
+@keyframes blink {
+    to {
+        background-color: #ffffff;
+        color: #000000;
+    }
+}
+
+#battery.critical:not(.charging) {
+    background-color: #f53c3c;
+    color: #ffffff;
+    animation-name: blink;
+    animation-duration: 0.5s;
+    animation-timing-function: linear;
+    animation-iteration-count: infinite;
+    animation-direction: alternate;
+}
+
+label:focus {
+    background-color: #000000;
+}
+
+#cpu {
+    background-color: #2ecc71;
+    color: #000000;
+}
+
+#memory {
+    background-color: #9b59b6;
+}
+
+#backlight {
+    background-color: #90b1b1;
+}
+
+#network {
+    background-color: #2980b9;
+}
+
+#network.disconnected {
+    background-color: #f53c3c;
+}
+
+#pulseaudio {
+    background-color: #f1c40f;
+    color: #000000;
+}
+
+#pulseaudio.muted {
+    background-color: #90b1b1;
+    color: #2a5c45;
+}
+
+#temperature {
+    background-color: #f0932b;
+}
+
+#temperature.critical {
+    background-color: #eb4d4b;
+}
+
+#language {
+    background-color: #00b093;
+}

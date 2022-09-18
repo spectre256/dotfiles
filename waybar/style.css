@@ -1,0 +1,105 @@
+* {
+    border-radius: 0.4em;
+    font-family: "Iosevka Custom Extended", "Symbols Nerd Font";
+    font-size: 18px;
+}
+
+window#waybar {
+    background: #24273a;
+    border-radius: 0;
+}
+
+tooltip {
+    border: none;
+    background: #1e2030;
+}
+
+tooltip label {
+  color: #cad3f5;
+}
+
+.modules-left,
+.modules-center,
+.modules-right {
+    margin: 5px 3px;
+}
+
+#clock {
+    background-color: #8aadf4;
+    color: #181926;
+    padding: 0 10px
+}
+
+#workspaces, #window {
+    background-color: #181926;
+    color: #cad3f5
+}
+
+#workspaces button {
+    border: none;
+    background: transparent;
+    color: #8087a2;
+    padding: 0 5px;
+}
+
+#workspaces button.focused {
+    background: #f5bde6;
+    color: #181926;
+}
+
+#workspaces button:hover {
+    box-shadow: inherit;
+    text-shadow: inherit;
+}
+
+#window {
+    padding: 0 10px;
+}
+
+#memory,
+#cpu,
+#temperature,
+#backlight,
+#pulseaudio,
+#network,
+#language,
+#battery {
+    background-color: #494d64;
+    color: #cad3f5;
+    padding: 0 10px;
+}
+
+#memory,
+#temperature {
+    background-color: #363a4f;
+}
+
+#backlight {
+    background-color: #cad3f5;
+    color: #181926;
+}
+
+#pulseaudio {
+    background-color: #c6a0f6;
+    color: #181926;
+}
+
+#network {
+    background-color: #8aadf4;
+    color: #181926;
+}
+
+#battery {
+    background-color: #c6a0f6;
+    color: #181926;
+}
+
+#battery.charging {
+    color: #181926;
+    background-color: #a6da95;
+}
+
+#battery.warning:not(.charging) {
+    background: #ed8796;
+    color: #181926;
+}

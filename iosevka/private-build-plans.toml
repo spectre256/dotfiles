@@ -1,0 +1,31 @@
+[buildPlans.iosevka-custom]
+family = "Iosevka Custom"
+spacing = "term"
+serifs = "sans"
+no-cv-ss = false
+export-glyph-names = true
+
+[buildPlans.iosevka-custom.variants]
+inherits = "ss05"
+
+[buildPlans.iosevka-custom.variants.design]
+f = "flat-hook"
+i = "serifed-flat-tailed"
+r = "top-serifed"
+t = "flat-hook"
+six = "open-contour"
+lig-ltgteq = "flat"
+ampersand = "et-toothless-rounded"
+
+[buildPlans.iosevka-custom.variants.italic]
+f = "tailed"
+i = "tailed-serifed"
+t = "standard"
+
+[buildPlans.iosevka-custom.variants.oblique]
+f = "tailed"
+i = "tailed-serifed"
+t = "standard"
+
+[buildPlans.iosevka-custom.ligations]
+inherits = "dlig"

@@ -19,10 +19,10 @@ catppuccin.setup(c, 'macchiatto')
 
 # Font size and family
 config.set('fonts.default_size', '12pt')
-config.set('fonts.default_family', 'FiraCode')
+config.set('fonts.default_family', 'Iosevka Custom Extended')
 
 # Tab spacing
-config.set('tabs.padding',  {"bottom": 2, "left": 6, "right": 6, "top": 4})
+config.set('tabs.padding',  {'bottom': 2, 'left': 6, 'right': 6, 'top': 4})
 
 # Binding to spawn mpv for hints
 config.bind(';m', 'hint links spawn mpv {hint-url}')

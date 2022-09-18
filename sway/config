@@ -1,36 +1,41 @@
-### Variables
-#
-# Logo key. Use Mod1 for Alt.
 set $mod Mod4
-# Home row direction keys, like vim
+
 set $left h
 set $down j
 set $up k
 set $right l
-# Your preferred terminal emulator
+
 set $term kitty
 
-set $wallpaper $HOME/wallpapers/evening-sky.png
+set $wallpaper ~/wallpapers/gradient.png
 
-# Lock command
 set $lock swaylock \
             --image $wallpaper \
             --clock \
             --indicator \
             --indicator-radius 100 \
             --indicator-thickness 8 \
-            --ring-color bb00cc \
-	        --key-hl-color 880033 \
-	        --line-color 00000000 \
-	        --inside-color 00000088 \
-	        --separator-color 00000000
+            --font "Iosevka Custom Extended" \
+            --font-size 32 \
+            --text-color cad3f5 \
+            --text-clear-color \
+            --text-ver-color \
+            --text-wrong-color \
+	        --inside-color 24273a \
+            --inside-clear-color b7bdf8 \
+            --inside-ver-color 8aadf4\
+            --inside-wrong-color ed8796 \
+            --ring-color 1e2030 \
+            --ring-ver-color 1e2030 \
+            --ring-clear-color 1e2030\
+	        --key-hl-color 7dc4e4 \
+	        --line-color 181926 \
+            --line-ver-color 181926 \
+            --line-clear-color 181926 \
+            --line-wrong-color 181926 \
+	        --separator-color 181926
 
-# Your preferred application launcher
-# Note: pass the final command to swaymsg so that the resulting window can be opened
-# on the original workspace that the command was run on.
-# set $menu dmenu_path | dmenu | xargs swaymsg exec --
 set $menu bemenu-run -b -n
-
 
 gaps inner 24
 gaps outer 8
@@ -38,167 +43,142 @@ gaps outer 8
 default_border none
 default_floating_border none
 
-### Output configuration
-#
-# Default wallpaper (more resolutions are available in /usr/share/backgrounds/sway/)
-# output * bg /usr/share/backgrounds/sway/Sway_Wallpaper_Blue_1920x1080.png fill
-#
-# Example configuration:
-#
-#   output HDMI-A-1 resolution 1920x1080 position 1920,0
-#
-# You can get the names of your outputs by running: swaymsg -t get_outputs
-
-output DP-3 {
-    resolution 2560x1440
+output * {
+    resolution 2560x1600
     bg $wallpaper fill
+}
+
+input type:touchpad {
+    tap enabled
+    natural_scroll enabled
 }
 
 exec pipewire & pipewire-pulse & wireplumber
 
-### Idle configuration
-#
-# Example configuration:
-#
-# exec swayidle -w \
-#          timeout 300 'swaylock -f -c 000000' \
-#          timeout 600 'swaymsg "output * dpms off"' resume 'swaymsg "output * dpms on"' \
-#          before-sleep 'swaylock -f -c 000000'
-#
-# This will lock your screen after 300 seconds of inactivity, then turn off
-# your displays after another 300 seconds, and turn your screens back on when
-# resumed. It will also lock your screen before your computer goes to sleep.
+exec light -O
 
-### Input configuration
-#
-# Example configuration:
-#
-#   input "2:14:SynPS/2_Synaptics_TouchPad" {
-#       dwt enabled
-#       tap enabled
-#       natural_scroll enabled
-#       middle_emulation enabled
-#   }
-#
-# You can get the names of your inputs by running: swaymsg -t get_inputs
-# Read `man 5 sway-input` for more information about this section.
+exec rm -f /tmp/sovpipe && mkfifo /tmp/sovpipe && tail -f /tmp/sovpipe | sov
 
-### Key bindings
-#
-# Basics:
-#
-    # Start a terminal
-    bindsym $mod+Return exec $term
+for_window [app_id="qalculate-qt"] floating enable, resize set 500 500
 
-    # Kill focused window
-    bindsym $mod+Shift+q kill
+bindsym $mod+Return exec $term
+bindsym $mod+Shift+q kill
+bindsym $mod+d exec $menu
+bindsym $mod+q exec $lock
 
-    # Start your launcher
-    bindsym $mod+d exec $menu
+bindsym Print exec grim
+bindsym $mod+Print exec swaymsg -t get_tree | jq -j '.. | select(.type?) | select(.focused).rect | "\(.x),\(.y) \(.width)x\(.height)"' | grim -g -
+bindsym $mod+Shift+Print exec slurp | grim -g -
 
-    # Lock
-    bindsym $mod+q exec $lock
+floating_modifier $mod normal
 
-    # Drag floating windows by holding down $mod and left mouse button.
-    # Resize them with right mouse button + $mod.
-    # Despite the name, also works for non-floating windows.
-    # Change normal to inverse to use left mouse button for resizing and right
-    # mouse button for dragging.
-    floating_modifier $mod normal
+bindsym $mod+Shift+c reload
 
-    # Reload the configuration file
-    bindsym $mod+Shift+c reload
+bindsym $mod+Shift+e exit
 
-    # Exit sway (logs you out of your Wayland session)
-    bindsym $mod+Shift+e exec swaynag -t warning -m 'You pressed the exit shortcut. Do you really want to exit sway? This will end your Wayland session.' -B 'Yes, exit sway' 'swaymsg exit'
-#
-# Moving around:
-#
-    # Move your focus around
-    bindsym $mod+$left focus left
-    bindsym $mod+$down focus down
-    bindsym $mod+$up focus up
-    bindsym $mod+$right focus right
-    # Or use $mod+[up|down|left|right]
-    bindsym $mod+Left focus left
-    bindsym $mod+Down focus down
-    bindsym $mod+Up focus up
-    bindsym $mod+Right focus right
+focus_follows_mouse no
 
-    # Move the focused window with the same, but add Shift
-    bindsym $mod+Shift+$left move left
-    bindsym $mod+Shift+$down move down
-    bindsym $mod+Shift+$up move up
-    bindsym $mod+Shift+$right move right
-    # Ditto, with arrow keys
-    bindsym $mod+Shift+Left move left
-    bindsym $mod+Shift+Down move down
-    bindsym $mod+Shift+Up move up
-    bindsym $mod+Shift+Right move right
-#
-# Workspaces:
-#
-    # Switch to workspace
-    bindsym $mod+1 workspace number 1
-    bindsym $mod+2 workspace number 2
-    bindsym $mod+3 workspace number 3
-    bindsym $mod+4 workspace number 4
-    bindsym $mod+5 workspace number 5
-    bindsym $mod+6 workspace number 6
-    bindsym $mod+7 workspace number 7
-    bindsym $mod+8 workspace number 8
-    bindsym $mod+9 workspace number 9
-    bindsym $mod+0 workspace number 10
-    # Move focused container to workspace
-    bindsym $mod+Shift+1 move container to workspace number 1
-    bindsym $mod+Shift+2 move container to workspace number 2
-    bindsym $mod+Shift+3 move container to workspace number 3
-    bindsym $mod+Shift+4 move container to workspace number 4
-    bindsym $mod+Shift+5 move container to workspace number 5
-    bindsym $mod+Shift+6 move container to workspace number 6
-    bindsym $mod+Shift+7 move container to workspace number 7
-    bindsym $mod+Shift+8 move container to workspace number 8
-    bindsym $mod+Shift+9 move container to workspace number 9
-    bindsym $mod+Shift+0 move container to workspace number 10
-    # Note: workspaces can have any name you want, not just numbers.
-    # We just use 1-10 as the default.
+bindsym $mod+$left focus left
+bindsym $mod+$down focus down
+bindsym $mod+$up focus up
+bindsym $mod+$right focus right
+
+bindsym $mod+Left focus left
+bindsym $mod+Down focus down
+bindsym $mod+Up focus up
+bindsym $mod+Right focus right
+
+bindsym $mod+Shift+$left move left
+bindsym $mod+Shift+$down move down
+bindsym $mod+Shift+$up move up
+bindsym $mod+Shift+$right move right
+
+bindsym $mod+Shift+Left move left
+bindsym $mod+Shift+Down move down
+bindsym $mod+Shift+Up move up
+bindsym $mod+Shift+Right move right
+
+bindsym XF86AudioRaiseVolume exec pactl set-sink-volume @DEFAULT_SINK@ +5%
+bindsym XF86AudioLowerVolume exec pactl set-sink-volume @DEFAULT_SINK@ -5%
+bindsym XF86AudioMute exec pactl set-sink-mute @DEFAULT_SINK@ toggle
+bindsym XF86AudioMicMute exec pactl set-source-mute @DEFAULT_SOURCE@ toggle
+bindsym XF86MonBrightnessDown exec light -U 5%
+bindsym XF86MonBrightnessUp exec light -A 5%
+
+workspace_auto_back_and_forth yes
+# Switch to workspace
+bindsym --no-repeat $mod+1 workspace number 1; exec "echo 1 > /tmp/sovpipe"
+bindsym --no-repeat $mod+2 workspace number 2; exec "echo 1 > /tmp/sovpipe"
+bindsym --no-repeat $mod+3 workspace number 3; exec "echo 1 > /tmp/sovpipe"
+bindsym --no-repeat $mod+4 workspace number 4; exec "echo 1 > /tmp/sovpipe"
+bindsym --no-repeat $mod+5 workspace number 5; exec "echo 1 > /tmp/sovpipe"
+bindsym --no-repeat $mod+6 workspace number 6; exec "echo 1 > /tmp/sovpipe"
+bindsym --no-repeat $mod+7 workspace number 7; exec "echo 1 > /tmp/sovpipe"
+bindsym --no-repeat $mod+8 workspace number 8; exec "echo 1 > /tmp/sovpipe"
+bindsym --no-repeat $mod+9 workspace number 9; exec "echo 1 > /tmp/sovpipe"
+bindsym --no-repeat $mod+0 workspace number 10; exec "echo 1 > /tmp/sovpipe"
+
+bindsym --release $mod+1 exec "echo 0 > /tmp/sovpipe"
+bindsym --release $mod+2 exec "echo 0 > /tmp/sovpipe"
+bindsym --release $mod+3 exec "echo 0 > /tmp/sovpipe"
+bindsym --release $mod+4 exec "echo 0 > /tmp/sovpipe"
+bindsym --release $mod+5 exec "echo 0 > /tmp/sovpipe"
+bindsym --release $mod+6 exec "echo 0 > /tmp/sovpipe"
+bindsym --release $mod+7 exec "echo 0 > /tmp/sovpipe"
+bindsym --release $mod+8 exec "echo 0 > /tmp/sovpipe"
+bindsym --release $mod+9 exec "echo 0 > /tmp/sovpipe"
+bindsym --release $mod+0 exec "echo 0 > /tmp/sovpipe"
+
+# Move focused container to workspace
+bindsym $mod+Shift+1 move container to workspace number 1
+bindsym $mod+Shift+2 move container to workspace number 2
+bindsym $mod+Shift+3 move container to workspace number 3
+bindsym $mod+Shift+4 move container to workspace number 4
+bindsym $mod+Shift+5 move container to workspace number 5
+bindsym $mod+Shift+6 move container to workspace number 6
+bindsym $mod+Shift+7 move container to workspace number 7
+bindsym $mod+Shift+8 move container to workspace number 8
+bindsym $mod+Shift+9 move container to workspace number 9
+bindsym $mod+Shift+0 move container to workspace number 10
+# Note: workspaces can have any name you want, not just numbers.
+# We just use 1-10 as the default.
 #
 # Layout stuff:
 #
-    # You can "split" the current object of your focus with
-    # $mod+b or $mod+v, for horizontal and vertical splits
-    # respectively.
-    bindsym $mod+b splith
-    bindsym $mod+v splitv
+# You can "split" the current object of your focus with
+# $mod+b or $mod+v, for horizontal and vertical splits
+# respectively.
+bindsym $mod+b splith
+bindsym $mod+v splitv
 
-    # Switch the current container between different layout styles
-    bindsym $mod+s layout stacking
-    bindsym $mod+w layout tabbed
-    bindsym $mod+e layout toggle split
+# Switch the current container between different layout styles
+bindsym $mod+s layout stacking
+bindsym $mod+w layout tabbed
+bindsym $mod+e layout toggle split
 
-    # Make the current focus fullscreen
-    bindsym $mod+f fullscreen
+# Make the current focus fullscreen
+bindsym $mod+f fullscreen
 
-    # Toggle the current focus between tiling and floating mode
-    bindsym $mod+Shift+space floating toggle
+# Toggle the current focus between tiling and floating mode
+bindsym $mod+Shift+space floating toggle
 
-    # Swap focus between the tiling area and the floating area
-    bindsym $mod+space focus mode_toggle
+# Swap focus between the tiling area and the floating area
+bindsym $mod+space focus mode_toggle
 
-    # Move focus to the parent container
-    bindsym $mod+a focus parent
+# Move focus to the parent container
+bindsym $mod+a focus parent
 #
 # Scratchpad:
 #
-    # Sway has a "scratchpad", which is a bag of holding for windows.
-    # You can send windows there and get them back later.
+# Sway has a "scratchpad", which is a bag of holding for windows.
+# You can send windows there and get them back later.
 
-    # Move the currently focused window to the scratchpad
-    bindsym $mod+Shift+minus move scratchpad
+# Move the currently focused window to the scratchpad
+bindsym $mod+Shift+minus move scratchpad
 
-    # Show the next scratchpad window or hide the focused scratchpad window.
-    # If there are multiple scratchpad windows, this command cycles through them.
-    bindsym $mod+minus scratchpad show
+# Show the next scratchpad window or hide the focused scratchpad window.
+# If there are multiple scratchpad windows, this command cycles through them.
+bindsym $mod+minus scratchpad show
 #
 # Resizing containers:
 #
@@ -231,5 +211,3 @@ bindsym $mod+r mode "resize"
 bar {
     swaybar_command waybar
 }
-
-# include /etc/sway/config.d/*
